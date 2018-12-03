@@ -1,0 +1,401 @@
+<template>
+    <div class="wrap">
+        <div class="top">
+            <img @click="back" class="back_img" src="../assets/nav_back.png" alt="">
+            <div>{{top_title}}</div>
+        </div>
+        <div class="form">
+          <div class="d_input">
+            <div class="f_l">
+              <span>微信：</span>
+            </div>
+            <div class="f_r">
+                <x-input class="" type="text" v-model="u_alipay" placeholder="请输入微信账号"></x-input>
+            </div>
+          </div>
+          <!-- <div class="d_input">
+            <div class="f_l">
+              <span>验证码：</span>
+            </div>
+            <div class="f_r">
+                <input type="text" placeholder="请输入手机验证码" v-model="u_code">
+                <span @click="getCode" class="code_span" :class="{f_cc:btn_msg!='发送验证码'}">{{btn_msg}}</span>
+            </div>
+          </div> -->
+          <div class="d_input no_border">
+              <div class="f_l">
+                    <span>上传收款码：</span>
+              </div>
+              <div class="f_r">
+                  <div class="up_div">
+                        <span class="icon f_c">+</span>
+                        <span class="jia">上传微信收款码</span>
+                        <img v-if="data1" :src="data1" >
+                        <input name="img" :disabled="data1!=''" type="file" id="handcard" @change="pushImg1($event)" accept="image/jpeg,image/png,image/gif" alt="">
+                        <span class="clear iconfont icon-shanchu1" v-if="data1" @click="delImg1($event)"></span>
+                    </div>
+              </div>
+              <div style="clear:both"></div>
+          </div>
+            <div class="form_bot">
+                <button class="btn" @click="sub">提交</button>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import {XInput } from "vux";
+import $ from "jquery";
+export default {
+  data() {
+    return {
+    top_title:"",
+      nid: 0,
+      ccode: "",
+      u_alipay: "",
+      u_code: "",
+      btn_msg: "发送验证码",
+      time: 60,
+      data1:"",
+      urll:"",
+    };
+  },
+  components: {
+      XInput
+  },
+  mounted() {
+    let that = this;
+    mui.back = function() {
+      clearInterval(window.t);
+      that.$router.back();
+      error;
+    };
+    let height =
+      document.documentElement.clientHeight || document.body.clientHeight;
+    that.height = height;
+    $(".wrap").css("min-height", height);
+
+    if(that.$route.params.type==1){
+        that.top_title = "修改微信"
+    }else{
+        that.top_title = "绑定微信"
+    }
+  },
+  methods: {
+    back() {
+      let that = this;
+      clearInterval(window.t);
+      that.$router.back();
+    },
+    // 上传
+    pushImg1: function(e) {
+      let file = e.target,
+        reader = new FileReader(),
+        that = this,
+        _name,
+        _fileName;
+      _name = file.value;
+      _fileName = _name.substring(_name.lastIndexOf(".") + 1).toLowerCase();
+      // if (_fileName !== "png" && _fileName !== "jpg") {
+      //   that.$vux.toast.show({
+      //     text: "请上传图片类型文件！",
+      //     type: "cancel",
+      //     position: "middle",
+      //     time: 1200
+      //   });
+      // }else{
+      reader.readAsDataURL(file.files[0]);
+      if (file.files[0].size > 10 * 1024 * 1024) {
+        that.$vux.toast.show({
+          text: that.$t("ups.d"),
+          type: "warn",
+          position: "middle",
+          time: 1500
+        });
+      } else {
+        that.$vux.loading.show({
+          text: "上传中..."
+        });
+        reader.onload = function() {
+          let result = this.result;
+
+          // that.data1 = result;
+
+          var image = new FormData();
+          image.append("file", e.target.files[0]);
+          // image.append("nozzle", "upload");
+          // image.append("token", that.$store.state.user_info.token);
+          that
+            .$http({
+              url: "/upload",
+              method: "post",
+              data: image
+            })
+            .then(function(res) {
+              that.$vux.loading.hide();
+              if (res.data.code == 200) {
+                that.data1 = result;
+                that.urll = res.data.msg;
+              } else {
+                that.$vux.toast.show({
+                  text: res.data.msg,
+                  type: "cancel",
+                  position: "middle",
+                  time: 1200
+                });
+              }
+            });
+        };
+      }
+
+      // }
+    },
+    delImg1: function(e) {
+      this.data1 = "";
+      let dom = document.getElementById("handcard");
+      dom.value = "";
+    },
+    getCode() {
+      let that = this;
+        if (that.btn_msg == "发送验证码") {
+          that.btn_msg = "60";
+          window.t = setInterval(function() {
+            that.time--;
+            that.btn_msg = that.time + "秒";
+            if (that.time <= 0) {
+              that.btn_msg = "发送验证码";
+              clearInterval(window.t);
+              that.time = 60;
+            }
+          }, 1000);
+          that
+            .$http({
+              url: "/",
+              method: "post",
+              data: {
+                nozzle: "we_chat_code",
+                token: that.$store.state.user_info.token,
+              }
+            })
+            .then(function(res) {
+              if (res.data.code == 1) {
+                that.$vux.toast.show({
+                  text: res.data.msg,
+                  type: "success",
+                  position: "middle",
+                  time: 3000
+                });
+              } else if (res.data.code == -1) {
+                that.$vux.toast.show({
+                  text: res.data.msg,
+                  type: "text",
+                  position: "middle",
+                  time: 1200
+                });
+                that.$router.push({
+                  name: "login"
+                });
+              } else {
+                that.$vux.toast.show({
+                  text: res.data.msg,
+                  type: "text",
+                  position: "middle",
+                  time: 1200
+                });
+                that.btn_msg = "发送验证码";
+                clearInterval(window.t);
+                that.time = 60;
+              }
+            });
+        }
+
+    },
+    sub() {
+      let that = this;
+      if (that.u_alipay) {
+        if(!that.urll){
+          that.$vux.toast.show({
+            text: "请上传微信收款码",
+            type: "cancel",
+            position: "middle",
+            time: 1200
+          });
+          return false;
+        }
+          that
+            .$http({
+              url: "/",
+              method: "post",
+              data: {
+                nozzle: "bind_we_chat",
+                token: that.$store.state.user_info.token,
+                phone: that.u_alipay,
+                wechat_img: that.urll
+              }
+            })
+            .then(function(res) {
+              that.$vux.loading.hide();
+              if (res.data.code == 1) {
+                that.$vux.toast.show({
+                  text: "绑定成功！",
+                  type: "cancel",
+                  position: "middle",
+                  time: 1200
+                });
+                that.$router.push({
+                  name:"weixin",
+                  params:{
+                    wx:that.u_alipay,
+                    src:that.urll
+                  }
+                });
+              } else {
+                that.$vux.toast.show({
+                  text: res.data.msg,
+                  type: "cancel",
+                  position: "middle",
+                  time: 1200
+                });
+              }
+            });
+
+      } else {
+        this.$vux.toast.show({
+          text: "请输入微信账号！",
+          type: "cancel",
+          position: "middle",
+          time: 1200
+        });
+      }
+    },
+  }
+};
+</script>
+<style lang="less" scoped>
+.up_div {
+  clear: both;
+  width: 5rem;
+  height: 4rem;
+  border: 1px solid #ba9870;
+  position: relative;
+  text-align: center;
+  .icon {
+    position: absolute;
+    left: 50%;
+    top: 0.6rem;
+    font-size: 1.4rem;
+    transform: translateX(-50%);
+  }
+  .jia {
+    position: absolute;
+    left: 50%;
+    top: 2.4rem;
+    color: #ba9870;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  input {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .clear {
+    font-size: 0.72rem;
+    color: #ba9870;
+    position: absolute;
+    right: -0.8rem;
+    top: -0.4rem;
+  }
+}
+.wrap {
+  font-size: 0.36rem;
+  position: absolute;
+  width: 100%;
+  color: white;
+  box-sizing: border-box;
+  padding-top: 1.15rem;
+  > .top {
+    border-bottom: 0.05rem solid #242424;
+  }
+  .form {
+    padding: 0.8rem 4% 0;
+    .d_input {
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+      > .f_l {
+        width: 2.8rem;
+        height: 0.8rem;
+        line-height: 0.8rem;
+        text-align: right;
+      }
+      > .f_r {
+        width: calc(100% - 3rem);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        .code_span {
+          float: right;
+          line-height: 0.8rem;
+          color: #ba9870;
+          border: 1px solid #ba9870;
+          border-radius: 20px;
+          width: 2.2rem;
+          text-align: center;
+        }
+        .f_cc {
+          color: rgba(255, 255, 255, 0.4);
+        }
+
+        > input {
+          width: calc(100% - 2.6rem);
+          background: transparent;
+          color: white;
+          line-height: 0.8rem;
+          padding-left: 0.15rem;
+          box-sizing: border-box;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+    .no_border{
+        overflow: visible;
+        .f_r{
+            border: 0;
+        }
+    }
+    .d_input:nth-child(2) > .f_r {
+      border: 0;
+    }
+  }
+  .form_bot {
+    padding: 1rem 12% 0;
+    .btn {
+      display: block;
+      width: 100%;
+      line-height: 0.9rem;
+      text-align: center;
+      color: white;
+      background: #ba9870;
+      border-radius: 20px;
+    }
+    > div {
+      overflow: hidden;
+      > span {
+        margin-top: 0.3rem;
+      }
+      a {
+        color: #ba9870;
+        font-size: 0.32rem;
+      }
+    }
+  }
+}
+</style>
