@@ -21,7 +21,7 @@
                     <span>{{item.time}}</span>
                     <span>{{item.type}}</span>
                     <span>{{item.name}}</span>
-                    <span>{{item.number}}ETH</span>
+                    <span>{{item.number}}ETW</span>
                 </li>
                 
             </ul>
