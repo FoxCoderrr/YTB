@@ -40,7 +40,7 @@
                   <span>{{index+1}}</span>
                   <span class="ta_r">{{item.phone}}</span>
                   <span>{{item.team}}<span v-if="item.team" class="iconfont icon-xiajiantou"></span></span>
-                  <span>{{item.amount}}ETH</span>
+                  <span>{{item.amount}}ETW</span>
                 </div>
                 <div>
                   <!-- 二级 -->
@@ -49,14 +49,14 @@
                       <span>{{index1+1}}</span>
                       <span class="ta_r">{{item1.phone}}</span>
                       <span>{{item1.team}}<span v-if="item1.team" class="iconfont icon-xiajiantou"></span></span>
-                      <span>{{item1.amount}}ETH</span>
+                      <span>{{item1.amount}}ETW</span>
                     </div>
                     <!-- 三级 -->
                     <div class="d_third" v-for="(item2,index2) in item1.son" :key="index2">
                       <span>{{index2+1}}</span>
                       <span class="ta_r">{{item2.phone}}</span>
                       <span>{{item2.team}}</span>
-                      <span>{{item2.amount}}ETH</span>
+                      <span>{{item2.amount}}ETW</span>
                     </div>
                   </div>
                 </div>

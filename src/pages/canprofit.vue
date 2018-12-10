@@ -4,7 +4,7 @@
             <img @click="back" class="back_img" src="../assets/nav_back.png" alt="">
             <div>可提现收益明细</div>
         </div>
-        <div class="zong f_c ta_r">共计：{{sum}}ETH</div>
+        <div class="zong f_c ta_r">共计：{{sum}}ETW</div>
         <div class="main">
             <ul>
                 <li>

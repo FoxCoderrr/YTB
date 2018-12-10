@@ -17,7 +17,7 @@
               <ul>
                 <li v-for="(item,index) in list" :key="index">
                     <span>{{item.time}}</span>
-                    <span>{{item.number}}ETH</span>
+                    <span>{{item.number}}ETW</span>
                     <span class="f_c" @click="exitDonate(item.id)">退出捐赠</span>
                 </li>
             </ul>

@@ -39,7 +39,7 @@
                         <tr v-for="(item,index) in list" :key="index">
                           <td>{{item.time}}</td>
                           <td>{{item.name}}</td>
-                          <td>{{item.number}}ETH</td>
+                          <td>{{item.number}}ETW</td>
                           <td>{{item.day}}天</td>
                           <td>{{item.back_time}}</td>
                           <!-- <td class="f_c" @click="exitDonate(item.id)">退出捐赠</td> -->

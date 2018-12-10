@@ -280,7 +280,7 @@ export default {
         if (that.u_pwd == that.u_pwd1) {
           if (that.uu_pwd == that.uu_pwd1) {
             if (that.ifAgree) {
-              that.dialog0 = true;
+              that.regSuc();
             } else {
               that.$vux.toast.show({
                 text: "请阅读并同意注册协议！",
