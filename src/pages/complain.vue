@@ -192,7 +192,8 @@ export default {
             nozzle: "add_apply",
             token: that.$store.state.user_info.token,
             id: that.$route.params.id,
-            apply: that.reason
+            apply: that.reason,
+            apply_path:that.urll
           }
         })
         .then(function(res) {

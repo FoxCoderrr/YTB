@@ -25,7 +25,7 @@
             <button class="btn" @click="toTopup">充币</button>
             <button class="btn" @click="toWithdraw">提币</button>
             <!-- <button class="btn" @click="toTransfer">C2C</button> -->
-            <button class="btn" @click="toHistory">转账记录</button>
+            <button class="btn" @click="toHistory">提币记录</button>
           </div>
         </div>
       </div>

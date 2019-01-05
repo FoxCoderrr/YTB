@@ -2,12 +2,12 @@
     <div class="wrap">
         <div class="top">
             <img @click="back" class="back_img" src="../assets/nav_back.png" alt="">
-            <div>转账记录</div>
+            <div>提币记录</div>
         </div>
-        <tab class="tab transfer_tab" :line-width = 4 custom-bar-width='28px' bar-active-color="#ba9870" active-color="#ba9870" :scroll-threshold="5">
+        <!-- <tab class="tab transfer_tab" :line-width = 4 custom-bar-width='28px' bar-active-color="#ba9870" active-color="#ba9870" :scroll-threshold="5">
           <tab-item selected @click.native="navTap(0)">转币明细</tab-item>
           <tab-item @click.native="navTap(1)">提币明细</tab-item>
-        </tab>
+        </tab> -->
         <div class="main">
             <div v-if="nid0==0">
                 <x-table :cell-bordered="false">
@@ -42,8 +42,8 @@
                         <tr v-for="(item,index) in list1" :key="index">
                             <td>{{item.time}}</td>
                             <td>{{item.send}}</td>
-                            <td>{{item.number}}ETH</td>
-                            <td>{{item.total}}ETH</td>
+                            <td>{{item.number}}</td>
+                            <td>{{item.total}}</td>
                             <td>{{item.status}}</td>
                         </tr>
                     </tbody>
@@ -67,7 +67,7 @@ import { Tab, TabItem, XTable } from "vux";
 export default {
   data() {
     return {
-      nid0: "0",
+      nid0: "1",
       list: [],
       list1:[],
       page: 1

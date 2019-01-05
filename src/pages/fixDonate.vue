@@ -56,12 +56,12 @@
                 @change="change"
             /> -->
         </div>
-        <div class="warm_tip f_c">
+        <!-- <div class="warm_tip f_c">
           <div class="title">温馨提示：</div>
           <div class="con">
             {{tip}}
           </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>

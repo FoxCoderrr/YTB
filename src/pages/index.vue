@@ -1,32 +1,50 @@
 <template>
-    <div class="wrap">
-      <div class="top">
-          <div>{{$store.state.top_title}}</div>
-      </div>
-      <div class="top_notice">
-        <!-- 公告 -->
-        <div class="notice">
-            <div>
-                <div class="d_img f_l">
-                    <img src="../assets/notice.png" alt="">
-                </div>
-                <swiper class="f_l" height="40px" loop auto :interval="interval" direction="vertical" :show-dots="false" style="width:100%;">
-                  <swiper-item @click.native="toDetail(item)" v-for="(item,index) in notices" :key="index"><p>{{item.title}}</p></swiper-item>
-                </swiper>
-                <div class="f_r">
-                  <span @click="toSet" class="iconfont icon-shezhi1 f_c"></span>
-                </div>
-            </div>
+  <div class="wrap">
+    <div class="top">
+      <div>{{$store.state.top_title}}</div>
+    </div>
+    <div class="top_notice">
+      <!-- 公告 -->
+      <div class="notice">
+        <div>
+          <div class="d_img f_l">
+            <img src="../assets/notice.png" alt>
+          </div>
+          <swiper
+            class="f_l"
+            height="40px"
+            loop
+            auto
+            :interval="interval"
+            direction="vertical"
+            :show-dots="false"
+            style="width:100%;"
+          >
+            <swiper-item
+              @click.native="toDetail(item)"
+              v-for="(item,index) in notices"
+              :key="index"
+            >
+              <p>{{item.title}}</p>
+            </swiper-item>
+          </swiper>
+          <div class="f_r">
+            <span @click="toSet" class="iconfont icon-shezhi1 f_c"></span>
+          </div>
         </div>
       </div>
-      <div class="top_aty">
-        <img @click="dialog=true" src="../assets/cup.gif" alt="">
-        <div class="d_bonus f_c">{{$store.state.cur_data.number}}</div>
-        <div class="d_time">
-          <span>{{$store.state.h}}</span> : <span>{{$store.state.m}}</span> : <span>{{$store.state.s}}</span>
-        </div>
+    </div>
+    <div class="top_aty">
+      <!-- <img @click="dialog=true" src="../assets/cup.gif" alt=""> -->
+      <img src="../assets/cup.gif" alt>
+      <div class="d_bonus f_c">{{$store.state.cur_data.number}}</div>
+      <div class="d_time">
+        <span>{{$store.state.h}}</span> :
+        <span>{{$store.state.m}}</span> :
+        <span>{{$store.state.s}}</span>
       </div>
-      <!-- <tab class="tab tb" v-model.number="tabIndex" :line-width = 4 custom-bar-width='26px'  bar-active-color="#ba9870" active-color="#ba9870" :scroll-threshold="5">
+    </div>
+    <!-- <tab class="tab tb" v-model.number="tabIndex" :line-width = 4 custom-bar-width='26px'  bar-active-color="#ba9870" active-color="#ba9870" :scroll-threshold="5">
           <tab-item @click.native="navTap(0)">
             <router-link :to="{name:'donate'}">时间捐赠</router-link>
           </tab-item>
@@ -39,80 +57,88 @@
           <tab-item @click.native="navTap(3)">
             <router-link :to="{name:'invite'}">邀请玩家</router-link>
           </tab-item>
-        </tab> -->
-      <router-view name="child" class="child"></router-view>
-      <div class="bot">
-        <tab class="tab" :line-width = 2 bar-active-color="#ba9870" active-color="#ba9870" :scroll-threshold="5">
-          <tab-item selected @click.native="navTap1(0)">当前轮次</tab-item>
-          <tab-item @click.native="navTap1(1)">捐赠模式统计</tab-item>
-        </tab>
-        <div v-if="nid1==0">
-          <div class="d_time ta_c">
-            <div>距离第{{$store.state.cur_data.phase}}轮结束</div>
-            <div><span>{{$store.state.h}}</span> : <span>{{$store.state.m}}</span> : <span>{{$store.state.s}}</span></div>
+    </tab>-->
+    <router-view name="child" class="child"></router-view>
+    <div class="bot">
+      <tab
+        class="tab"
+        :line-width="2"
+        bar-active-color="#ba9870"
+        active-color="#ba9870"
+        :scroll-threshold="5"
+      >
+        <tab-item selected @click.native="navTap1(0)">当前轮次</tab-item>
+        <tab-item @click.native="navTap1(1)">捐赠模式统计</tab-item>
+      </tab>
+      <div v-if="nid1==0">
+        <div class="d_time ta_c">
+          <div>距离第{{$store.state.cur_data.phase}}轮结束</div>
+          <div>
+            <span>{{$store.state.h}}</span> :
+            <span>{{$store.state.m}}</span> :
+            <span>{{$store.state.s}}</span>
           </div>
-          <ul class="ul1">
-            <li>
-              <div class="f_l ta_l">奖池金额</div>
-              <div class="f_l ta_r f_c">
-                <span>{{$store.state.cur_data.number}}</span>
-                <span>&asymp;{{$store.state.cur_data.cny_number}}CNY</span>
-              </div>
-              <div class="f_r">
-                <img src="../assets/coin.png" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="f_l ta_l">我的捐赠</div>
-              <div class="f_l ta_r f_c">
-                <span>{{$store.state.cur_data.donation}}</span>
-                <span>&asymp;{{$store.state.cur_data.cny_donation}}CNY</span>
-              </div>
-              <div class="f_r">
-                <img src="../assets/clock.png" alt="">
-              </div>
-            </li>
-            <li>
-              <div class="f_l ta_l">我的可提现收益</div>
-              <div class="f_l ta_r f_c">
-                <span>{{$store.state.cur_data.use_income}}</span>
-                <span>&asymp;{{$store.state.cur_data.cny_income}}CNY</span>
-              </div>
-              <div class="f_r">
-                <img src="../assets/coin.png" alt="">
-              </div>
-            </li>
-          </ul>
         </div>
-        <div v-if="nid1==1">
-          <div class="d_title ta_c">所有玩家在各个捐赠模式投入ETW统计</div>
-          <ul class="ul2">
-            <li v-for="(item,index) in $store.state.pattern_data" :key="index">
-              <div class="f_l ta_l">{{item.name}}</div>
-              <div class="f_r">
-                <img src="../assets/coin.png" alt="">
-              </div>
-              <div class="f_r ta_r f_c">
-                <!-- <span>{{item.number}}</span> -->
-                <span>{{item.ratio}}%</span>
-              </div>
-            </li>
-          </ul>
+        <ul class="ul1">
+          <li>
+            <div class="f_l ta_l">奖池金额</div>
+            <div class="f_l ta_r f_c">
+              <span>{{$store.state.cur_data.number}}</span>
+              <span>&asymp;{{$store.state.cur_data.cny_number}}CNY</span>
+            </div>
+            <div class="f_r">
+              <img src="../assets/coin.png" alt>
+            </div>
+          </li>
+          <li>
+            <div class="f_l ta_l">我的捐赠</div>
+            <div class="f_l ta_r f_c">
+              <span>{{$store.state.cur_data.donation}}</span>
+              <span>&asymp;{{$store.state.cur_data.cny_donation}}CNY</span>
+            </div>
+            <div class="f_r">
+              <img src="../assets/clock.png" alt>
+            </div>
+          </li>
+          <li>
+            <div class="f_l ta_l">我的可提现收益</div>
+            <div class="f_l ta_r f_c">
+              <span>{{$store.state.cur_data.use_income}}</span>
+              <span>&asymp;{{$store.state.cur_data.cny_income}}CNY</span>
+            </div>
+            <div class="f_r">
+              <img src="../assets/coin.png" alt>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div v-if="nid1==1">
+        <div class="d_title ta_c">所有玩家在各个捐赠模式投入ETW统计</div>
+        <ul class="ul2">
+          <li v-for="(item,index) in $store.state.pattern_data" :key="index">
+            <div class="f_l ta_l">{{item.name}}</div>
+            <div class="f_r">
+              <img src="../assets/coin.png" alt>
+            </div>
+            <div class="f_r ta_r f_c">
+              <!-- <span>{{item.number}}</span> -->
+              <span>{{item.ratio}}%</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 弹窗 -->
+    <x-dialog v-model="dialog" class="des_dialog" hide-on-blur>
+      <div class="dialog">
+        <span class="vux-close" @click="dialog=false"></span>
+        <div>
+          <div class="title">大奖获得规则</div>
+          <div class="con rule">{{rules}}</div>
         </div>
       </div>
-      <!-- 弹窗 -->
-      <x-dialog v-model="dialog" class="des_dialog" hide-on-blur>
-        <div class="dialog">
-            <span class="vux-close" @click="dialog=false"></span>
-          <div>
-              <div class="title">大奖获得规则</div>
-              <div class="con rule">
-                {{rules}}
-              </div>
-          </div>
-        </div>
-      </x-dialog>
-    </div>
+    </x-dialog>
+  </div>
 </template>
 <script>
 import $ from "jquery";
@@ -173,7 +199,7 @@ export default {
       .then(function(res) {
         if (res.data.code == 1) {
           that.notices = res.data.data;
-          sessionStorage.setItem("notices",JSON.stringify(that.notices));
+          sessionStorage.setItem("notices", JSON.stringify(that.notices));
         } else {
           that.$vux.toast.show({
             text: res.data.msg,
@@ -217,6 +243,7 @@ export default {
     toSet() {
       clearInterval(window.tt0);
       clearInterval(window.tt1);
+      sessionStorage.setItem("rname", this.$route.name);
       this.$router.push({
         name: "setting"
       });
@@ -267,50 +294,68 @@ export default {
           if (res.data.code == 1) {
             that.$store.state.cur_data = res.data.data;
             that.$store.state.end = res.data.data.count;
+            if (res.data.data.count == 0) {
+              that.$store.state.end = 0;
+              that.$store.state.h = "00";
+              that.$store.state.m = "00";
+              that.$store.state.s = "00";
+              clearInterval(window.tmain);
+              that.$store.state.bool = false;
+              return false;
+            }
             that.$store.commit("countDown");
-            if(res.data.data.status==0){
-              that.$store.state.end=0;
-              that.$store.state.h="00";
-              that.$store.state.m="00";
-              that.$store.state.s="00";
+            var date = new Date();
+            var now = date.getTime();
+            //设置截止时间
+            var endDate = new Date(res.data.data.count.replace(/-/g, "/"));
+            var end = endDate.getTime();
+            //时间差
+            let leftTime = end - now;
+            if (leftTime == 0 || res.data.data.status == 0) {
+              that.$store.state.end = 0;
+              that.$store.state.h = "00";
+              that.$store.state.m = "00";
+              that.$store.state.s = "00";
               // if (res.data.data.status == 0&&window.localStorage.getItem("first")!=1) {
-                clearInterval(window.tmain);
-                that.$store.state.bool = false;
-                that
-                  .$http({
-                    url: "/",
-                    method: "post",
-                    data: {
-                      nozzle: "award_info",
-                      token: that.$store.state.user_info.token
-                    }
-                  })
-                  .then(function(res) {
-                    if (res.data.data != 0) {
-                      if (that.$store.state.tip) {
-                        that.$router.push({
-                          name: "gamefinish",
-                          params: {
-                            type: "1",
-                            num: res.data.data
-                          }
-                        });
-                      }
-                    }else{
-                      that.$router.push({
-                          name: "gamefinish",
-                          params: {
-                            type: "0",
-                            num: "0"
-                          }
-                        });
-                    }
-                  });
+              clearInterval(window.tmain);
+              that.$store.state.bool = false;
+              // that
+              //   .$http({
+              //     url: "/",
+              //     method: "post",
+              //     data: {
+              //       nozzle: "award_info",
+              //       token: that.$store.state.user_info.token
+              //     }
+              //   })
+              //   .then(function(res) {
+              //     if (that.$store.state.tip) {
+              //       if (res.data.data != 0) {
+              //           that.$router.push({
+              //             name: "gamefinish",
+              //             params: {
+              //               type: "1",
+              //               num: res.data.data
+              //             }
+              //           });
+              //       }else{
+              //         that.$router.push({
+              //           name: "gamefinish",
+              //             params: {
+              //               type: "0",
+              //               num: "0"
+              //             }
+              //           });
+              //       }
+
+              //       }
+
+              //   });
               // }
-            }else{
-                that.$store.state.tip=true;
-                // window.localStorage.setItem("first","0")
-              }
+            } else {
+              that.$store.state.tip = true;
+              // window.localStorage.setItem("first","0")
+            }
           }
         });
     },
@@ -346,50 +391,68 @@ export default {
           })
           .then(function(res) {
             if (res.data.code == 1) {
-              
               that.$store.state.cur_data = res.data.data;
               that.$store.state.end = res.data.data.count;
+              if (res.data.data.count == 0) {
+                that.$store.state.end = 0;
+                that.$store.state.h = "00";
+                that.$store.state.m = "00";
+                that.$store.state.s = "00";
+                clearInterval(window.tmain);
+                that.$store.state.bool = false;
+                return false;
+              }
               that.$store.commit("countDown");
-              if(res.data.data.status==0){
+              var date = new Date();
+              var now = date.getTime();
+              //设置截止时间
+              var endDate = new Date(res.data.data.count.replace(/-/g, "/"));
+              var end = endDate.getTime();
+              //时间差
+              let leftTime = end - now;
+              if (leftTime == 0 || res.data.data.status == 0) {
                 // if (res.data.data.status == 0&&window.localStorage.getItem("first")!=1) {
-                  clearInterval(window.tmain);
-                  that.$store.state.end=0;
-                  that.$store.state.bool = false;
-                  that
-                    .$http({
-                      url: "/",
-                      method: "post",
-                      data: {
-                        nozzle: "award_info",
-                        token: that.$store.state.user_info.token
-                      }
-                    })
-                    .then(function(res) {
-                      if (res.data.data!=0) {
-                      if (that.$store.state.tip) {
-                        that.$router.push({
-                          name: "gamefinish",
-                          params: {
-                            type: "0",
-                            num: res.data.data
-                          }
-                        });
-                      }
-                    }else{
-                      that.$router.push({
-                          name: "gamefinish",
-                          params: {
-                            type: "0",
-                            num: "0"
-                          }
-                        });
-                    }
-                    });
+                clearInterval(window.tmain);
+                that.$store.state.end = 0;
+                that.$store.state.bool = false;
+                // that
+                //   .$http({
+                //     url: "/",
+                //     method: "post",
+                //     data: {
+                //       nozzle: "award_info",
+                //       token: that.$store.state.user_info.token
+                //     }
+                //   })
+                //   .then(function(res) {
+                //     if (that.$store.state.tip) {
+                //     if (res.data.data!=0) {
+
+                //       that.$router.push({
+                //         name: "gamefinish",
+                //         params: {
+                //           type: "0",
+                //           num: res.data.data
+                //         }
+                //       });
+
+                //   }else{
+                //     that.$router.push({
+                //         name: "gamefinish",
+                //         params: {
+                //           type: "0",
+                //           num: "0"
+                //         }
+                //       });
+                //   }
                 // }
-              }else{
-                  that.$store.state.tip=true;
-                  // window.localStorage.setItem("first","0");
-                }
+
+                //   });
+                // }
+              } else {
+                that.$store.state.tip = true;
+                // window.localStorage.setItem("first","0");
+              }
             }
           });
       }, 3000);

@@ -7,6 +7,14 @@
         <div class="form">
           <div class="d_input">
             <div class="f_l">
+              <span>姓名：</span>
+            </div>
+            <div class="f_r">
+                <x-input class="" type="text" v-model="u_name" placeholder="请输入微信账号真实姓名"></x-input>
+            </div>
+          </div>
+          <div class="d_input">
+            <div class="f_l">
               <span>微信：</span>
             </div>
             <div class="f_r">
@@ -40,6 +48,7 @@
             <div class="form_bot">
                 <button class="btn" @click="sub">提交</button>
             </div>
+            <div class="name_tip f_c" style="padding-top:1rem;">真实姓名涉及交易转账，务必保证支付宝、微信、银行卡真实姓名一致。</div>
         </div>
     </div>
 </template>
@@ -54,6 +63,7 @@ export default {
       ccode: "",
       u_alipay: "",
       u_code: "",
+      u_name: "",
       btn_msg: "发送验证码",
       time: 60,
       data1:"",
@@ -230,7 +240,8 @@ export default {
                 nozzle: "bind_we_chat",
                 token: that.$store.state.user_info.token,
                 phone: that.u_alipay,
-                wechat_img: that.urll
+                wechat_img: that.urll,
+                wechat_name: that.u_name
               }
             })
             .then(function(res) {
@@ -371,9 +382,7 @@ export default {
             border: 0;
         }
     }
-    .d_input:nth-child(2) > .f_r {
-      border: 0;
-    }
+
   }
   .form_bot {
     padding: 1rem 12% 0;

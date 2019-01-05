@@ -15,10 +15,10 @@
         <div class="form" v-if="nid==0">
           <div class="d_input">
             <div class="f_l">
-              <span>手机号：</span>
+              <span>账号：</span>
             </div>
             <div class="f_r">
-                <x-input class="" type="tel" mask="999 9999 9999" :max=13 v-model="u_phone" placeholder="请输入注册时的手机号"></x-input>
+                <x-input class="" type="text" v-model="u_phone" placeholder="请输入账号"></x-input>
             </div>
           </div>
           <div class="d_input">
@@ -53,10 +53,10 @@
         <div class="form" v-if="nid==1">
           <div class="d_input">
             <div class="f_l">
-              <span>手机号：</span>
+              <span>账号：</span>
             </div>
             <div class="f_r">
-                <x-input class="" type="tel" mask="999 9999 9999" :max=13 v-model="u_phone1" placeholder="请输入注册时的手机号"></x-input>
+                <x-input class="" type="text" v-model="u_phone1" placeholder="请输入账号"></x-input>
             </div>
           </div>
           <div class="d_input">
@@ -139,7 +139,6 @@ export default {
       that.nid = that.$route.params.type;
       that.tabIndex = that.$route.params.type;
     }else{
-      console.log("000");
       that.nid = that.$route.params.type;
       that.tabIndex = that.$route.params.type;
     }
@@ -159,8 +158,7 @@ export default {
     },
     getCode() {
       let that = this;
-      let reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-      if (reg.test(that.u_phone).toString().replace(/ /g,"")) {
+      if (that.u_phone) {
         if (that.btn_msg == "发送验证码") {
           that.btn_msg = "60";
           window.t = setInterval(function() {
@@ -178,7 +176,8 @@ export default {
               method: "post",
               data: {
                 nozzle: "forget_code",
-                phone: that.u_phone.toString().replace(/ /g,"")
+                phone: that.u_phone,
+                pwd_type:"login_pwd"
               }
             })
             .then(function(res) {
@@ -214,7 +213,7 @@ export default {
         }
       } else {
         that.$vux.toast.show({
-          text: "请输入正确的手机号！",
+          text: "请输入账号",
           type: "cancel",
           position: "middle",
           time: 1200
@@ -223,8 +222,7 @@ export default {
     },
     getCode1() {
       let that = this;
-      let reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
-      if (reg.test(that.u_phone1).toString().replace(/ /g,"")) {
+      if (that.u_phone1) {
         if (that.btn_msg1 == "发送验证码") {
           that.btn_msg1 = "60秒";
           window.t1 = setInterval(function() {
@@ -242,7 +240,8 @@ export default {
               method: "post",
               data: {
                 nozzle: "forget_code",
-                phone: that.u_phone1.toString().replace(/ /g,"")
+                phone: that.u_phone1,
+                pwd_type:"trade_pwd"
               }
             })
             .then(function(res) {
@@ -278,7 +277,7 @@ export default {
         }
       } else {
         that.$vux.toast.show({
-          text: "手机号格式错误！",
+          text: "请输入账号",
           type: "cancel",
           position: "middle",
           time: 1200
@@ -295,7 +294,7 @@ export default {
               method: "post",
               data: {
                 nozzle: "login_password",
-                phone: that.u_phone.toString().replace(/ /g,""),
+                phone: that.u_phone,
                 code: that.u_code,
                 password: that.u_pwd,
                 confirm: that.u_pwdd
@@ -306,7 +305,7 @@ export default {
               if (res.data.code == 1) {
                 that.$vux.toast.show({
                   text: "成功修改登录密码！",
-                  type: "cancel",
+                  type: "success",
                   position: "middle",
                   time: 1200
                 });
@@ -339,7 +338,6 @@ export default {
     sub1() {
       let that = this;
       if (that.u_phone1 && that.u_pwd1 && that.u_pwdd1 && that.u_code1) {
-        if (that.u_code1 == that.ccode) {
           if (that.u_pwd1 == that.u_pwdd1) {
             that
             .$http({
@@ -347,7 +345,7 @@ export default {
               method: "post",
               data: {
                 nozzle: "trade_password",
-                phone: that.u_phone1.toString().replace(/ /g,""),
+                phone: that.u_phone1,
                 code: that.u_code1,
                 password: that.u_pwd1,
                 confirm: that.u_pwdd1
@@ -358,7 +356,7 @@ export default {
               if (res.data.code == 1) {
                 that.$vux.toast.show({
                   text: "成功修改登录密码！",
-                  type: "cancel",
+                  type: "success",
                   position: "middle",
                   time: 1200
                 });
@@ -379,14 +377,6 @@ export default {
               time: 1200
             });
           }
-        } else {
-          that.$vux.toast.show({
-            text: "验证码输入错误！",
-            type: "cancel",
-            position: "middle",
-            time: 1200
-          });
-        }
       } else {
         this.$vux.toast.show({
           text: "请输入完整信息！",

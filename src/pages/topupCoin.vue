@@ -6,7 +6,7 @@
             <span class="f_c" @click="toTopupHistory">充币明细</span>
         </div>
         <div class="d_main">
-          <div class="top_tips f_c" v-html="tips"></div>
+          <!-- <div class="top_tips f_c" v-html="tips"></div> -->
           <div class="main">
               <!-- <div class="ta_c">余额：{{info.balance}}ETH</div> -->
               <!-- <div class="ta_c">

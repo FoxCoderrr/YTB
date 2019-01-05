@@ -167,7 +167,7 @@ export default {
   },
   computed: {
     calc_sum() {
-      return (parseFloat(this.d_num) + parseFloat(this.fee)).toFixed(4);
+      return parseFloat(this.d_num).toFixed(4);
     }
   },
   mounted() {

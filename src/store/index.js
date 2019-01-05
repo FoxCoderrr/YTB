@@ -22,6 +22,13 @@ export default new vuex.Store({
   mutations: { //$store.commit('sum')调用
     countDown(state) {
       let that = this;
+      if(state.end==0){
+        state.d = "00";
+        state.h = "00";
+        state.m = "00";
+        state.s = "00";
+        return false;
+      }
       window.a=1;
       window.tmain = setInterval(function () {
         var date = new Date();
@@ -56,7 +63,7 @@ export default new vuex.Store({
           h = "00";
           m = "00";
           s = "00";
-         
+          state.bool = false;
         }
         state.h = h;
         state.m = m;

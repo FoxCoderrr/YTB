@@ -53,7 +53,10 @@ export default {
   mounted() {
     let that = this;
     mui.back = function() {
-      that.$router.back();
+      let n = sessionStorage.getItem("rname");
+      that.$router.push({
+        name:n
+      });
       error;
     };
     that
@@ -75,7 +78,10 @@ export default {
   methods: {
     back() {
       let that = this;
-      that.$router.back();
+      let n = sessionStorage.getItem("rname");
+      that.$router.push({
+        name:n
+      });
     },
     toRule(i){
         this.$router.push({

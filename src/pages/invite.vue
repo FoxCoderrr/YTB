@@ -7,8 +7,8 @@
         </tab>
         <div v-if="nid==0" class="d_invite">
           <div class="ta_c">
-                <img :src="info.img" alt="">
-                <div>我的邀请码：{{info.code}}</div>
+                <!-- <img :src="info.img" alt=""> -->
+                <div class="ta_l">我的邀请码：{{info.code}}</div>
             </div>
             <div>
                 <span class="f_l">推广链接：</span>

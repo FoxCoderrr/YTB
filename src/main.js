@@ -42,7 +42,16 @@ Vue.prototype.$http = instance;
 // });
 // axios
 import axios from 'axios'
-const host = process.env.NODE_ENV === 'development' ? '/' : 'http://etw.qilinpz.com' // 根据 process.env.NODE_ENV 的值判断当前是什么环境
+import Qs from "qs"
+axios.defaults.transformRequest = [function(data) {
+  if(data.toString()=="[object FormData]"){
+    return data;
+  }else{
+    return Qs.stringify(data)
+  }
+}];
+const host = process.env.NODE_ENV === 'development' ? '/' : 'http://etw.qilinpz.com' 
+// const host = process.env.NODE_ENV === 'development' ? '/' : 'http://testapp.qilinpz.com' 
 const instance = axios.create({
   baseURL: host,
   timeout: 10000,

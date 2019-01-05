@@ -57,6 +57,7 @@
             <div class="form_bot">
                 <button class="btn" @click="sub">提交</button>
             </div>
+            <div class="name_tip f_c" style="padding-top:1rem;">真实姓名涉及交易转账，务必保证支付宝、微信、银行卡真实姓名一致。</div>
         </div>
     </div>
 </template>

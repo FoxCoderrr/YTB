@@ -15,7 +15,7 @@
            <div class="d_mid">
                <div class="ta_c" v-if="$route.params.type==1">
                    <span>金额</span>
-                   <span>{{$route.params.num}}ETH</span>
+                   <span>{{$route.params.num}}ETW</span>
                </div>
                <div>
                    <button class="btn f_l" @click="toCanprofit">查看我的可提现收益</button>

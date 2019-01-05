@@ -56,7 +56,7 @@
                 <x-input class="" type="password"  v-model="uu_pwd1" placeholder="请再次输入新安全密码"></x-input>
             </div>
           </div>
-          <div class="d_input">
+          <!-- <div class="d_input">
             <div class="f_l">
               <span>验证码：</span>
             </div>
@@ -64,7 +64,7 @@
                 <input type="text" placeholder="请输入验证码" v-model="code">
                 <span class="code_span" :class="{f_cc:btn_msg!='发送验证码'}" @click="getCode">{{btn_msg}}</span>
             </div>
-          </div>
+          </div> -->
           <div class="d_input">
             <div class="f_l">
               <span>邀请码：</span>
@@ -119,7 +119,7 @@ export default {
       u_pwd1: "",
       uu_pwd: "",
       uu_pwd1: "",
-      code: "",
+      code: "1234",
       yqm: "",
       btn_msg: "发送验证码",
       ifAgree: false,
