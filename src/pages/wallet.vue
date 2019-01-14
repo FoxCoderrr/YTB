@@ -8,13 +8,13 @@
         <div class="d_ads">
           <div>
             <span class="f_l">钱包地址：</span>
-            <span class="f_r" v-clipboard:copy="address" v-clipboard:success="onCopy" v-clipboard:error="onError">{{address_}}</span>
+            <span class="f_r">{{address_}}</span>
             <!-- <select class="f_r">
               <option v-for="(item,index) in list" :key="index" value="">{{item.ads}}</option>
             </select> -->
-            <div class="d_copy">
+            <!-- <div class="d_copy">
               <button class="f_r btn" v-clipboard:copy="address" v-clipboard:success="onCopy" v-clipboard:error="onError">复制地址</button>
-            </div>
+            </div> -->
           </div>
           <div class="ta_c add_ads">
               <span class="iconfont icon-tianjia" @click="addAds"></span>
@@ -383,13 +383,13 @@ export default {
         }
         .f_r {
           float: left;
-          background: rgba(186, 152, 112, 0.6);
-          border: 1px solid rgba(186, 152, 112, 0.6);
+          // background: rgba(186, 152, 112, 0.6);
+          // border: 1px solid rgba(186, 152, 112, 0.6);
           border-radius: 4px;
           height: 0.8rem;
           outline: 0;
           color: white;
-          width: calc(100% - 4rem);
+          width: calc(100% - 2rem);
           font-size: 0.32rem;
           box-sizing: border-box;
           padding: 0 0.1rem 0;
