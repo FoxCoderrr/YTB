@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://testapp.qilinpz.com/',//设置你调用的接口域名和端口号 
+        target: 'http://etw.qilinpz.com',//设置你调用的接口域名和端口号 
         changeOrigin: true,     //跨域
       },
     },

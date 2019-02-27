@@ -54,7 +54,6 @@ const host = process.env.NODE_ENV === 'development' ? '/' : 'http://etw.qilinpz.
 // const host = process.env.NODE_ENV === 'development' ? '/' : 'http://testapp.qilinpz.com' 
 const instance = axios.create({
   baseURL: host,
-  timeout: 10000,
   withCredentials: true,
 })
 // 添加响应拦截器

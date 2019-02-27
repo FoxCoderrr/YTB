@@ -213,7 +213,15 @@ export default {
       if (i) {
         times = that.times1;
         prices = that.yvalues1;
-        dataZooms = { type: "inside" };
+        if (times.length <= 7) {
+          dataZooms = { type: "inside" };
+        } else {
+          dataZooms = {
+            type: "inside",
+            startValue: times.length-7,
+            endValue: times.length-1
+          };
+        }
       } else {
         times = that.times;
         prices = that.yvalues;
@@ -222,8 +230,8 @@ export default {
         } else {
           dataZooms = {
             type: "inside",
-            start: 50,
-            end: 100
+            startValue: times.length-7,
+            endValue: times.length-1
           };
         }
       }
